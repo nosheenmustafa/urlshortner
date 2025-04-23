@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRouter } from "react";
+import React, { useState} from "react";
+import {useRouter } from 'next/router'
 import QRCodeBox from "@/app/Qrcode/page";
 
 import Link from "next/link";
@@ -68,6 +69,7 @@ const Shorten = () => {
 
   //hanlde delete logic here
   const handleDelete = async (id) => {
+    if(!confirm("Are you sure you want to delete this link")) return;
     const request = await fetch(`/api/getSingleurl?id=${id}`, {
       method: "DELETE",
       headers: {
@@ -121,7 +123,7 @@ const Shorten = () => {
         </div>
       </div>
       <div className="mx-auto  font-bold px-32 text-black">
-        {urls.length > 0 && (
+        {urls && urls.length > 0 && (
           <div className="mt-4">
             <h1 className="font-bold  text-center  text-3xl">
               welcome {session?.user?.name}
@@ -129,9 +131,9 @@ const Shorten = () => {
 
             <h2 className=" font-bold mb-2">Your Previous Links:</h2>
             <ul className=" list-disc pl-5">
-              {urls.map((url, idx) => (
+              {urls.map((url) => (
                 <li
-                  key={idx}
+                  key={url._id}
                   className="flex gap-2 w-full my-12 text-center items-center "
                 >
                   <Link
@@ -143,7 +145,7 @@ const Shorten = () => {
                     {process.env.NEXT_PUBLIC_HOST + "/" + url.prefurl}
                   </Link>
                   <span>visited count: {url.clicks}</span>
-                  <div className="flex justify-self-end m-0 mt-4  mr-4  ">
+                  <div className="flex justify-self-end m-0 mt-4  mr-4  " aria-label={`Qr code for ${url.prefurl}`}>
                     <QRCodeBox
                       url={`${process.env.NEXT_PUBLIC_HOST}/${url.prefurl}`}
                     />
