@@ -11,7 +11,7 @@ const Login = () => {
      
       router.push('/Shorten')
     }
-    }, [session])
+    }, [session, router])
     
     
   return (

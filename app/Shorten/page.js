@@ -1,7 +1,7 @@
 "use client";
 import React, { useState} from "react";
 import {useRouter } from 'next/router'
-import QRCodeBox from "@/app/Qrcode/page";
+import QRCodeBox from "@/components/Qrcode";
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
